@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xmlns:util="http://www.springframework.org/schema/util" 
+        xmlns:p="http://www.springframework.org/schema/p" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <context:component-scan base-package="com.kyobobook.mobile.web" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+    <!-- ============================================================= -->
+    <!--  Spring @MVC 설정                                              -->
+    <!-- ============================================================= -->    
+    <mvc:annotation-driven />
+    <mvc:default-servlet-handler />
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.mvc.WebContentInterceptor" 
+              p:cacheSeconds="0" />
+    </mvc:interceptors>
+    
+    <!-- 페이지 연결 설정 -->
+    <mvc:view-controller path="/" view-name="oxquiz" />
+    <mvc:view-controller path="/oxquiz" view-name="oxquiz" />
+    
+    <!-- ============================================================= -->
+    <!--  ViewResolver 설정                                             -->
+    <!-- ============================================================= -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:viewClass="org.springframework.web.servlet.view.JstlView"
+          p:prefix="WEB-INF/views/"
+          p:suffix=".jsp" />    
+
+</beans>

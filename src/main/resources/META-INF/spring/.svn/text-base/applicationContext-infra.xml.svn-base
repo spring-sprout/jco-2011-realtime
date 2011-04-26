@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+       xmlns:sqlmap="http://www.springframework.org/schema/data/sqlmap"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd 
+        http://www.springframework.org/schema/data/sqlmap https://github.com/dreaminfra/mvnrepository/raw/master/milestone/kr/co/dreaminfra/org/springframework/spring-data-sqlmap/spring-sqlmap-1.0.xsd">
+
+    <context:property-placeholder location="classpath:META-INF/spring/database.properties"/>
+
+    <!-- jotm 설정 -->
+    <bean id="jotm" class="com.kyobobook.mobile.common.tx.JotmFactoryBean" />
+
+    <bean id="digiDataSource" class="org.enhydra.jdbc.pool.StandardXAPoolDataSource" destroy-method="stopPool">
+        <property name="dataSource">
+            <bean class="org.enhydra.jdbc.standard.StandardXADataSource">
+                <property name="transactionManager" ref="jotm" />
+                <property name="driverName" value="${digi.database.driverClass}" />
+                <property name="url" value="${digi.database.jdbcUrl}" />
+            </bean>
+        </property>
+        <property name="user" value="${digi.database.user}" />
+        <property name="password" value="${digi.database.password}" />
+    </bean>
+        
+    <bean id="ctiDataSource" class="org.enhydra.jdbc.pool.StandardXAPoolDataSource" destroy-method="stopPool">
+        <property name="dataSource">
+            <bean class="org.enhydra.jdbc.standard.StandardXADataSource" >
+                <property name="transactionManager" ref="jotm" />
+                <property name="driverName" value="${cti.database.driverClass}" />
+                <property name="url" value="${cti.database.jdbcUrl}" />
+            </bean>
+        </property>
+        <property name="user" value="${cti.database.user}" />
+        <property name="password" value="${cti.database.password}" />
+    </bean>
+
+    <!-- jotm를 property로 가지는 JtaTransactionManager설정 -->
+    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"
+          p:userTransaction-ref="jotm" />
+          
+    <!-- 데이터 소스 설정 -->
+    <!-- 
+    <bean id="digiDataSource"
+          class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+          destroy-method="close">
+        <property name="driverClass" value="${digi.database.driverClass}"/>
+        <property name="jdbcUrl" value="${digi.database.jdbcUrl}"/>
+        <property name="user" value="${digi.database.user}"/>
+        <property name="password" value="${digi.database.password}"/>
+    </bean>
+    <bean id="ctiDataSource"
+          class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+          destroy-method="close">
+        <property name="driverClass" value="${cti.database.driverClass}"/>
+        <property name="jdbcUrl" value="${cti.database.jdbcUrl}"/>
+        <property name="user" value="${cti.database.user}"/>
+        <property name="password" value="${cti.database.password}"/>
+    </bean>
+    -->
+    
+    <jdbc:embedded-database id="prototypeDataSource" type="HSQL">
+        <jdbc:script location="classpath:sqlScript/schema.sql" />
+        <jdbc:script location="classpath:sqlScript/USERS_DATA.sql" />
+        <jdbc:script location="classpath:sqlScript/EST_KOR_BOOK_DATA.sql" />
+        <jdbc:script location="classpath:sqlScript/EST_ENG_BOOK_DATA.sql" />
+    </jdbc:embedded-database>
+
+    <bean id="prototypeTransactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="prototypeDataSource" />
+          
+    <tx:annotation-driven transaction-manager="prototypeTransactionManager" />
+          
+    <bean id="prototypeSqlMapClient"
+          class="org.springframework.orm.ibatis.SqlMapClientFactoryBean"
+          p:dataSource-ref="prototypeDataSource"
+          p:configLocation="classpath:META-INF/ibatis/SqlmapConfig.xml"
+          p:mappingLocations="classpath:com/kyobobook/mobile/domain/Sqlmap*.xml" />
+    
+    <sqlmap:repositories sqlmap-executor-ref="prototypeSqlMapClient"
+                         base-package="com.kyobobook.mobile.service" />        
+     
+</beans>

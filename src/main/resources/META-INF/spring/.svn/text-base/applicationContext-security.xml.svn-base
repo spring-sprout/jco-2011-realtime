@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="
+                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+	<!-- HTTP security configurations -->
+    <http auto-config="true">
+        <intercept-url pattern="/login*" filters="none" />
+        <intercept-url pattern="/**" access="ROLE_USER" />
+        
+        <!-- login 처리 설정 -->
+        <form-login login-page="/login" 
+                    login-processing-url="/static/j_spring_security_check" 
+                    authentication-failure-url="/login?login_error=t" />
+        <!-- logout 처리 설정 -->
+        <logout     logout-url="/static/j_spring_security_checkout" 
+                    invalidate-session="true" />
+    </http>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="authService" />
+    </authentication-manager>
+    
+    <beans:bean id="authService" class="com.kyobobook.mobile.service.authentication.PrototypeAuthService" />
+
+</beans:beans>

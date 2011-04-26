@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <!-- 메소드 수행시 로그를 남기는 어드바이스 -->
+    <bean id="modelExcuteInfoLogAdvice"
+          class="com.kyobobook.mobile.common.aop.ModelExcuteInfoLogAdvice" />
+
+    <aop:config proxy-target-class="true">
+        <!-- 메소드 로그 생성 애스팩트 등록 -->
+        <aop:aspect ref="modelExcuteInfoLogAdvice">
+            <!-- service 패키지 이하의 모든 클래스에 대해서 around 어드바이스 적용 -->
+            <!-- 표준 구현체명이 확정되면 세부 조정 -->
+            <aop:around pointcut="
+                            execution(public * com.kyobobook.mobile.service..*(..)) and 
+                            @within(org.springframework.stereotype.Service)" 
+                        method="serviceExcuteInfoLogging" />
+            <!-- dao 패키지 이하의 모든 클래스에 대해서 around 어드바이스 적용 -->
+            <aop:around pointcut="
+                            execution(public * com.kyobobook.mobile.dao..*(..)) and 
+                            @within(org.springframework.stereotype.Repository)" 
+                        method="daoExcuteInfoLogging" />            
+        </aop:aspect>
+    </aop:config>
+    
+</beans>
