@@ -19,7 +19,7 @@
 	
 	function startStreaming() {
 		var hub = new StreamHub();
-		hub.connect("http://localhost:8070/");
+		hub.connect("http://localhost:7878/streamhub/");
 		hub.subscribe("HelloWorld", topicUpdated);
 	}
 	</script>
