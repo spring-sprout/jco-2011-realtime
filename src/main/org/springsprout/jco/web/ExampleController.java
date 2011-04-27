@@ -8,7 +8,7 @@ import org.springsprout.jco.example.HelloWorldStreamer;
 @Controller
 public class ExampleController {
 	
-	@RequestMapping(value="/example")
+	@RequestMapping(value="/examples-helloworld")
 	public ModelAndView example() {
 		try {
 			new HelloWorldStreamer();
@@ -16,7 +16,7 @@ public class ExampleController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new ModelAndView("example", "message", "Hello World");
+		return new ModelAndView("examples/helloworld", "message", "Hello World");
 	}
 	
 }
