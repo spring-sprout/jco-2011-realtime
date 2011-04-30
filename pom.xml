@@ -16,6 +16,8 @@
         <java-version>1.6</java-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
+        <wtp.context.name>/realtime</wtp.context.name>
+        
         <org.springframework-version>3.0.5.RELEASE</org.springframework-version>
 
         <org.aspectj-version>1.6.9</org.aspectj-version>
@@ -91,7 +93,7 @@
             <version>${org.aspectj-version}</version>
         </dependency>
         
-        <!-- jackson -->
+        <!-- stream-hub -->
         <dependency>
             <groupId>com.stream-hub</groupId>
             <artifactId>streamhub</artifactId>
@@ -107,6 +109,12 @@
             <artifactId>json</artifactId>
             <version>20080701</version>
         </dependency>
+		<dependency>
+		    <groupId>commons-httpclient</groupId>
+		    <artifactId>commons-httpclient</artifactId>
+		    <version>3.1</version>
+		    <scope>test</scope>
+		</dependency>        
         
         <!-- jackson -->
         <dependency>
@@ -214,8 +222,6 @@
     </dependencies>
     
     <build>
-    	<sourceDirectory>src/main</sourceDirectory>
-		<testSourceDirectory>src/test</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -251,6 +257,14 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <warName>realtime</warName>
+                </configuration>
+            </plugin>            
         </plugins>
     </build>
 

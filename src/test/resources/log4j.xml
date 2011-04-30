@@ -16,9 +16,12 @@
     </logger>
 	
 	<!-- 3rdparty Loggers -->
-	<logger name="org.springframework">
-		<level value="debug" />
-	</logger>
+    <logger name="org.springframework">
+        <level value="debug" />
+    </logger>
+    <logger name="com.streamhub">
+        <level value="debug" />
+    </logger>
 
 	<!-- Root Logger -->
 	<root>
