@@ -7,26 +7,149 @@
   <meta name="viewport" content="width=device-width; initial-scale=1.0">
 
   <style>
-  	
+    /*
+     * 색상표
+     * 222526
+     * ffbb6e
+     * f28d00
+     * d94f00
+     * 7f203b
+     */
+    em {
+       font-style: none;
+    }
+    
+    #container {
+       width: 960px;
+       margin: 0 auto;
+       color: #222526;
+    }
+    
+    header {
+       width: 900px;
+       border:none;
+      -moz-border-radius: 28px;
+      -webkit-border-radius: 28px;
+      border-radius: 28px;
+      background-color: #ffbb6e;
+      text-align: center;
+      padding: 10px;
+      font-size: 1.5em;
+    }
+    
+    #main {
+       width: 970px;
+    }
+    
+    #yes,
+    #no {
+       float: left;
+       width: 400px;
+       height: 400px;
+       margin:10px 25px 30px 25px;
+       -moz-border-radius: 35px;
+       -webkit-border-radius: 35px;
+       border-radius: 35px;
+       text-align: center;
+       font-size: 20em;
+    }
+    
+    #yes .background,
+    #no .background {
+       position:absolute;
+       width:400px;
+    }
+    
+    #yes {
+       border: dashed 5px #90baf2;
+       color: #90baf2;
+    }
+    
+    #no {
+       border: dashed 5px #f290ac;
+       color: #f290ac;
+    }
+    
+    footer {
+       clear: both;
+    }
+    
+    .circle {
+       display: block;
+       display: block;
+       width: 40px;
+       height: 40px;
+       -moz-border-radius: 20px;
+       -webkit-border-radius: 20px;
+       float: left;
+       margin: 3px;
+    }
+    
+    .me {
+       background: #7f203b;
+    }
+    
+    .others {
+       background: #d94f00;
+    }
+    
+    .respondents {
+       position:relative;
+    }
   </style>
 </head>
 
 <body>
   <div id="container">
     <header>
-		<h2>문제</h2> 
+		<h2>Comet이라는 용어는 Alex Russell이 만들었다.</h2> 
     </header>
     
     <div id="main">
-		<div>O</div>
-		<div>X</div>
+		<div id="yes">
+		   <div class="background">O</div>
+		   <div class="respondents">
+   		    <div class="circle me"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+		   </div>
+		</div>
+		<div id="no">
+		   <div class="background">X</div>
+         <div class="respondents">
+             <div class="circle me"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+             <div class="circle others"></div>
+         </div>
+		</div>
     </div>
     
     <footer>
-		참가자 
+       <div>답변 대기중인 사람들(10) : </div>
+		 <div class="circle me"></div>
+		 <div class="circle others"></div>
+		 <div class="circle others"></div>
+		 <div class="circle others"></div>
+		 <div class="circle others"></div>
+		 <div class="circle others"></div>
     </footer>
   </div>
-
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
   <script>!window.jQuery && document.write('<script src="/jco.2011.realtime.oxquiz/js/jquery-1.5.2.js"><\/script>')</script>
