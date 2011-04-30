@@ -12,7 +12,7 @@
                             http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
                             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <context:component-scan base-package="org.springsprout.jco.web" use-default-filters="false">
+    <context:component-scan base-package="org.springsprout.realtime.web" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
 
@@ -21,22 +21,16 @@
     <!-- ============================================================= -->    
     <mvc:annotation-driven />
     <mvc:default-servlet-handler />
-    <mvc:interceptors>
-        <bean class="org.springframework.web.servlet.mvc.WebContentInterceptor" 
-              p:cacheSeconds="0" />
-    </mvc:interceptors>
     
-    <!-- 페이지 연결 설정 -->
     <mvc:view-controller path="/" view-name="oxquiz" />
-    <mvc:view-controller path="/oxquiz" view-name="oxquiz" />
-    <mvc:view-controller path="/examples-cometchat" view-name="examples/cometchat" />
+    <mvc:view-controller path="/examples/chat" view-name="/examples/chat" />
     
     <!-- ============================================================= -->
     <!--  ViewResolver 설정                                             -->
     <!-- ============================================================= -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:viewClass="org.springframework.web.servlet.view.JstlView"
-          p:prefix="WEB-INF/views/"
+          p:prefix="/WEB-INF/views/"
           p:suffix=".jsp" />    
 
 </beans>

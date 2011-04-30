@@ -12,13 +12,16 @@
 	
 	<!-- Application Loggers -->
 	<logger name="org.springsprout">
-		<level value="debug" />
+		<level value="trace" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework">
 		<level value="info" />
 	</logger>
+    <logger name="com.streamhub">
+        <level value="info" />
+    </logger>
     
 	<!-- Root Logger -->
 	<root>
