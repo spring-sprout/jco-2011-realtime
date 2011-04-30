@@ -2,6 +2,8 @@ package org.springsprout.jco.example;
 
 import java.io.File;
 
+import org.springframework.stereotype.Component;
+
 import com.streamhub.api.Client;
 import com.streamhub.api.JsonPayload;
 import com.streamhub.api.Payload;
@@ -9,6 +11,7 @@ import com.streamhub.api.PublishListener;
 import com.streamhub.api.PushServer;
 import com.streamhub.nio.NIOServer;
 
+@Component
 public class Chat implements PublishListener {
 	private PushServer server;
 	

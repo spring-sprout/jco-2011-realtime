@@ -29,6 +29,7 @@
     <!-- 페이지 연결 설정 -->
     <mvc:view-controller path="/" view-name="oxquiz" />
     <mvc:view-controller path="/oxquiz" view-name="oxquiz" />
+    <mvc:view-controller path="/examples-cometchat" view-name="examples/cometchat" />
     
     <!-- ============================================================= -->
     <!--  ViewResolver 설정                                             -->
