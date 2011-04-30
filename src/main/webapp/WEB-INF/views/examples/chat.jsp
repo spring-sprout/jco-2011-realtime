@@ -52,7 +52,7 @@
 	</script>
 	<script type="text/javascript">
 	    var hub = new StreamHub();
-	    var sServerUrl = "http://192.168.1.7:7878/streamhub/";
+	    var sServerUrl = "http://localhost:7878/streamhub/";
 	    hub.connect(sServerUrl);
 	    hub.subscribe(chatRoomName, chatUpdated);
 	</script>
