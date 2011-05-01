@@ -1,16 +1,18 @@
 package org.springsprout.realtime.server;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*; 
-
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springsprout.realtime.streamhub.StreamhubServerFactory;
 
 import com.streamhub.api.PushServer;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+
+import static org.junit.Assert.assertThat;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -24,5 +26,8 @@ public class StreamhubServerTest {
         assertThat(server, is(notNullValue()));
     }
     
-
+    @After
+    public void 서버_죽이기() throws Exception{
+        server.stop();
+    }
 }
