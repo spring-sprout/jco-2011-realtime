@@ -20,6 +20,8 @@
         </property>
         <property name="licenseUrl" value="classpath:META-INF/streamhub/license.txt" />
         <property name="log4jConfigurationUrl" value="classpath:log4j.xml" />
-    </bean>    
+    </bean>   
+    
+    <bean class="org.springsprout.realtime.oxquiz.ListenerHandlerRegistrant" /> 
     
 </beans>

@@ -5,18 +5,25 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springsprout.realtime.streamhub.StreamhubListenerSupport;
 
 import com.streamhub.api.Client;
 import com.streamhub.api.JsonPayload;
 import com.streamhub.api.Payload;
+import com.streamhub.api.PublishListener;
+import com.streamhub.api.PushServer;
+import com.streamhub.api.SubscriptionListener;
 
 @Component
-public class ChatListener extends StreamhubListenerSupport {
+public class ChatListener implements SubscriptionListener, PublishListener, InitializingBean {
 
     private static final String CHAT_ROOM_NAME = "ChatRoom";
     private static final Logger logger = LoggerFactory.getLogger(ChatListener.class);
+    
+    @Autowired
+    private PushServer server;
 
     private Map<Client, String> userNameMappings = new HashMap<Client, String>();
 
@@ -56,7 +63,7 @@ public class ChatListener extends StreamhubListenerSupport {
             chatMessage.addField("user", username);
             chatMessage.addField("chat", fields.get("chat"));
             
-            getServer().publish(topic, chatMessage);
+            server.publish(topic, chatMessage);
         } else {
             logger.error("Incoming payload did not contain chat message, full message: " + fields.toString());
         }
@@ -81,7 +88,13 @@ public class ChatListener extends StreamhubListenerSupport {
     private void sendNotification(String topic, String notificationMessage) {
         Payload notification = new JsonPayload(topic);
         notification.addField("notification", notificationMessage);
-        getServer().publish(topic, notification);
+        server.publish(topic, notification);
     }
-
+    
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        server.getSubscriptionManager().addSubscriptionListener(this);
+        server.getSubscriptionManager().addPublishListener(this);
+    }
+    
 }

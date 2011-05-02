@@ -22,7 +22,6 @@
     <mvc:annotation-driven />
     <mvc:default-servlet-handler />
     
-    <mvc:view-controller path="/" view-name="oxquiz" />
     <mvc:view-controller path="/examples/chat" view-name="/examples/chat" />
     
     <!-- ============================================================= -->
