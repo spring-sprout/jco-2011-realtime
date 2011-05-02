@@ -11,7 +11,8 @@
     <script type="text/javascript" src='<spring:url value="/js/streamhub-min.js" />'></script>  
     <script type="text/javascript" src='<spring:url value="/js/oxquiz.js" />'></script>
     <script type="text/javascript">
-        var streamHub = new StreamHub();
+        var streamHub = new StreamHub(),
+            callBackFuns = {};
 
         // 관리자 명령 정의 - start
         var adminCommand = function() {
@@ -42,7 +43,6 @@
         // 참가자 답 전송 - end
         
         // CallBack 정의 - start
-        var callBackFuns = {};
         callBackFuns.currentQuizClose = function(message) {
         	console.log('O / X 화면 이동금지 명령에 서버에서 내려왔습니다.');
         };
