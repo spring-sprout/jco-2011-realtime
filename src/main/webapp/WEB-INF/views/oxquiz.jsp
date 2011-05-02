@@ -42,11 +42,11 @@
         // 참가자 답 전송 - end
         
         // CallBack 정의 - start
-        var callBackFuns = new Object();
-        callBackFuns['currentQuizClose'] = function(message) {
+        var callBackFuns = {};
+        callBackFuns.currentQuizClose = function(message) {
         	console.log('O / X 화면 이동금지 명령에 서버에서 내려왔습니다.');
         };
-        callBackFuns['nextQuiz'] = function(message) {
+        callBackFuns.nextQuiz = function(message) {
         	if(message.quiz === '') {
                 console.log('더 이상 문제가 없습니다.');
             } else {
@@ -54,7 +54,7 @@
                 console.log(message.quiz);
             }
         };
-        callBackFuns['entryAnswerSubmit'] = function(message) {
+        callBackFuns.entryAnswerSubmit = function(message) {
         	console.log(message.entryId + '가 ' + message.answer + '를 선택했습니다.');
         };
      // CallBack 정의 - end
