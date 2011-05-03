@@ -92,7 +92,7 @@
 		      var target = $('#' +to+ ' .respondents');
 		      if(target.find('#circle-' + id).length < 1) {
 		    	  target.append(obj);
-		    	  streamHub.publish('notification', '{"answer":"' + to + '"}');
+		    	  streamHub.publish('entryAnswerSubmitCommand', '{"answer":"' + to + '"}');
 		    	  this.countWaiting();
 		      }
 		   },
@@ -156,8 +156,8 @@
             streamHub.subscribe("notification", function(topic, notification) {
             	console.log(notification);
 				
-            	if(message.state === 'entryAnswerSubmit') {
-            		
+            	if(notification.state === 'entryAnswerSubmit') {
+            		SS.selectAnswer(notification.entryId, notification.answer);	
             	}
             });            
             
