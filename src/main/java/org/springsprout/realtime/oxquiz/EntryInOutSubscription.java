@@ -31,10 +31,16 @@ public class EntryInOutSubscription implements Subscription {
     public void onSubscribe(Client client) {
         clientStore.rememberEntry(client);
         
+        // 요청한 참가자에게 부여된 아이디 전송
+        Payload notification = new JsonPayload("notification");
+        notification.addField("state", "myEntryId");
+        notification.addField("entryId", client.getUid());
+        client.send("notification", notification);
+        
+        // 접속한 모든 참가자에게 새로운 참가자 정보를 게재
         Payload entry = new JsonPayload(getTopic());
         entry.addField("state", "entryIn");
         entry.addField("entryId", client.getUid());
-        
         server.publish(getTopic(), entry);
         
         logger.info("new entry connection: {}", client.getUid());        
