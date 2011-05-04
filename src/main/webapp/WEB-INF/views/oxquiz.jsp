@@ -46,8 +46,8 @@
     <script type="text/javascript" src='<spring:url value="/js/streamhub-min.js" />'></script>  
     <script type="text/javascript" src='<spring:url value="/js/jquery.gritter.min.js" />'></script>  
     <script type="text/javascript" src='<spring:url value="/js/oxquiz.js" />'></script>
-    <script type="text/javascript"><!--
-        var streamHub = new StreamHub(),
+    <script type="text/javascript">
+        var streamHub = new StreamHub();
         
         var SS = {
            me: null,
@@ -82,11 +82,30 @@
 		    	  this.countWaiting();
 		      }
 		   },
-		   notificateCloseQuiz: function() {
-			   gritter = $.gritter.add({
+		   notificate: function(text) {
+			   this.gritter = $.gritter.add({
 					title: 'oxquiz',
-					text: '5초후에 마감합니다.'
+					text: text,
+					time: 500
 				});
+		   },
+		   notificateCloseQuiz: function() {
+			   this.notificate('5초후에 마감합니다.');
+			   setTimeout(function() {
+				   SS.notificate('4');
+			   }, 1000);
+			   setTimeout(function() {
+				   SS.notificate('3');
+			   }, 2000);
+			   setTimeout(function() {
+				   SS.notificate('2');
+			   }, 3000);
+			   setTimeout(function() {
+				   SS.notificate('1');
+			   }, 4000);
+			   setTimeout(function() {
+				   SS.notificate('마감합니다.');
+			   }, 5000);
 			   setTimeout(function() {
 				   SS.closeQuiz();
 			   }, 5000);
@@ -96,13 +115,19 @@
 			   $('#no').unbind('click').css('cursor', 'auto');
 		   },
 		   notificateNextQuiz: function(title) {
-			   gritter = $.gritter.add({
-					title: 'oxquiz',
-					text: '다음 문제로 이동합니다.'
-				});
+			   this.notificate('다음 문제로 이동합니다.');
+			   setTimeout(function() {
+				   SS.notificate('3');
+			   }, 1000);
+			   setTimeout(function() {
+				   SS.notificate('2');
+			   }, 2000);
+			   setTimeout(function() {
+				   SS.notificate('1');
+			   }, 3000);
 			   setTimeout(function() {
 				   SS.nextQuestion(title);
-			   }, 5000);
+			   }, 4000);
 		   },
 		   nextQuestion: function(title) {
 		      $('header h2').html(title);
@@ -144,6 +169,6 @@
             
             SS.initEventListener();
         });
-    --></script>
+    </script>
 </body>
 </html>
