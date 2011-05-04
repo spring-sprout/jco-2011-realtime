@@ -17,5 +17,11 @@ public class QxQuizController {
         model.addAttribute("entrys", entryStore.getAllEntry());
         return "/oxquiz";
     }
+    
+    @RequestMapping("/admin")
+    public String oxquizAdmin(Model model) {
+    	model.addAttribute("entrys", entryStore.getAllEntry());
+    	return "/oxquizadmin";
+    }
 
 }
