@@ -42,27 +42,6 @@
     </footer>
   </div>
   
-  
-  
-    <div style="margin-top:300px; clear:both;">
-        참가자 명단 :<br />
-        <ul id="entryList">
-        <c:forEach items="${entrys}" var="entry">
-            <li id="${entry.uid}">Entry Id: ${entry.uid}</li>
-        </c:forEach>        
-        </ul>
-    </div>
-    <div>
-        참가자 답 제출 :<br />
-    </div>    
-    <div>
-        관리자 명령 :<br />
-        <button onclick="adminCommand.currentQuizClose();">O / X 이동금지</button>
-        <button onclick="adminCommand.nextQuiz();">다음 문제</button>
-    </div>
-    <h3>Examples</h3>
-    <a href='<spring:url value="/examples/chat" />'>Realtime Chat</a>
-    
     <script src='<spring:url value="/js/jquery-1.5.2.js" />'></script>
     <script type="text/javascript" src='<spring:url value="/js/streamhub-min.js" />'></script>  
     <script type="text/javascript" src='<spring:url value="/js/jquery.gritter.min.js" />'></script>  
@@ -75,11 +54,9 @@
            gritter: null,
            initEventListener: function() {
         	   $('#yes').click(function(e) {
-	               	console.log('before publish yes');
 	               	streamHub.publish('entryAnswerSubmitCommand', '{"answer":"yes"}');
                }).css('cursor', 'pointer');
                $('#no').click(function(e) {
-	               	console.log('before publish no');
 	               	streamHub.publish('entryAnswerSubmitCommand', '{"answer":"no"}');
                }).css('cursor', 'pointer');
            },
@@ -98,7 +75,6 @@
         	   $('#watingNum').html($('#waiting').children().length);
            },
 		   selectAnswer: function(id, to) {
-			   console.log('in selectAnswer' + id + ' / ' + to);
 		      var obj = $('#circle-' + id);
 		      var target = $('#' +to+ ' .respondents');
 		      if(target.find('#circle-' + id).length < 1) {
@@ -135,20 +111,6 @@
 		   }
 		}
 
-        // 관리자 명령 정의 - start
-        var adminCommand = function() {
-        	var topic = "adminCommand";
-            return {
-                currentQuizClose: function() {
-                    streamHub.publish(topic, "{command:currentQuizClose}");
-                },
-                nextQuiz: function() {
-                    streamHub.publish(topic, "{command:nextQuiz}");
-                }
-            };
-        }();
-        // 관리자 명령 정의 - end
-            
         $(document).ready(function(){
             streamHub.connect("http://localhost:7878/streamhub/");
             
@@ -157,11 +119,9 @@
             	//console.log(notification);
 				
             	if(notification.state === 'entryAnswerSubmit') {
-            		console.log('from noti: ' + notification.entryId + ' / ' + notification.answer);
             		SS.selectAnswer(notification.entryId, notification.answer);
             	} else if(notification.state === 'myEntryId') {
             		SS.me = notification.entryId;
-            		console.log('me : ' + notification.entryId);
             	} else if(notification.state === 'currentQuizClose') {
             		SS.notificateCloseQuiz();
             	} else if(notification.state === 'nextQuiz') {
@@ -172,7 +132,6 @@
             // 참가
             streamHub.subscribe("entry", function(topic, message) {
             	if(message.state === 'entryIn') {
-            		console.log(message);
             		if(SS.me == message.entryId) {
 	            		SS.addNewUser(message.entryId, 'me');
             		} else {
