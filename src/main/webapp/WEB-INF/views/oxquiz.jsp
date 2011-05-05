@@ -150,7 +150,7 @@
             	} else if(notification.state === 'currentQuizClose') {
             		SS.notificateCloseQuiz();
             	} else if(notification.state === 'nextQuiz') {
-            		SS.notificateNextQuiz();
+            		SS.notificateNextQuiz(notification.quiz);
             	}
             });            
             
