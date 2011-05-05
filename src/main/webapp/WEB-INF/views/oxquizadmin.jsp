@@ -16,7 +16,7 @@
     <h2>Realtime Web Application :: OXQuiz</h2>
     <div id="container">
     <header>
-		<h2>Comet이라는 용어는 Alex Russell이 만들었다.</h2> 
+		<h2>Comet이라는 용어를 들어봤다.</h2> 
     </header>
     
     <div id="main">
@@ -154,7 +154,6 @@
             	} else if(notification.state === 'currentQuizClose') {
             		SS.notificateCloseQuiz();
             	} else if(notification.state === 'nextQuiz') {
-            		console.log(notification.quiz);
             		SS.notificateNextQuiz(notification.quiz);
             	}
             });            

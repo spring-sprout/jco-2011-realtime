@@ -10,9 +10,12 @@ public class QuizStore {
     
     static {
         Set<String> quizSet = new HashSet<String>();
-        quizSet.add("Comet이라는 용어가 알고있다.");
+        //quizSet.add("Firefox 4는 기본적으로 Web Socket을 지원한다.");
+        quizSet.add("자바에서 어느 서블릿 컨테이너가 Comet을 지원하는지 알고 있다.");
+        quizSet.add("웹소켓을 사용해 본 적이 있다.");
+        quizSet.add("각 Comet 기술들의 동작방식을 설명할 수 있다.");
         quizSet.add("Comet을 사용하는 서비스를 개발한적이 있다.");
-        quizSet.add("Ajax는 Comet에 속한다.");
+        //quizSet.add("Comet이라는 용어는 Alex Russell이 만들었다.");
         
         quizs = quizSet.iterator();
     }
