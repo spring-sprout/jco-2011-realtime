@@ -23,6 +23,7 @@
     <mvc:default-servlet-handler />
     
     <mvc:view-controller path="/examples/chat" view-name="/examples/chat" />
+    <mvc:view-controller path="/chunked" view-name="/chunked" />
     
     <!-- ============================================================= -->
     <!--  ViewResolver 설정                                             -->

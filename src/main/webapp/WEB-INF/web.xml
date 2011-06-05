@@ -39,7 +39,14 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-		
+	<servlet>
+    <servlet-name>chat</servlet-name>
+    <servlet-class>org.springsprout.servlet.Chat</servlet-class>
+  </servlet>	
+	<servlet-mapping>
+		<servlet-name>chat</servlet-name>
+		<url-pattern>/chat</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
