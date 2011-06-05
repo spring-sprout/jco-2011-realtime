@@ -1,23 +1,19 @@
 jQuery(function($) {
-  var jqxhr = $.ajax({
-    url : "/jco.2011.realtime.oxquiz/chat",
-    type : "get",
-    dataType : "json",
-//    dataFilter : function(data,type){
-//      return '{\"data\":\"aaaddd\"}';
-//    },
-    success : function(data) {
-      console.log(data);
-      // sendMsg('yon',data.data);
-    },
-    error: function(xhr, errText, ex) {
-      console.log(xhr);
-      console.log(errText);
-      console.log(ex);
-      console.log('error');
-    }
-  });
-  console.log(jqxhr);
+  var xhr =  new XMLHttpRequest();
+  var startIdx = 0;
+  xhr.open('GET', 'chat', true);
+  xhr.onreadystatechange = function(e) {
+    console.log(xhr.readyState)
+     if (xhr.readyState == 3 && xhr.status == 200) {
+       console.log(e);
+     }
+  };
+  xhr.onprogress = function(e){
+      console.log(e.target.responseText.substring(startIdx,e.loaded));
+      startIdx += (e.loaded-startIdx);
+  };
+  xhr.send(null);
+
   var sendMsg = function(who, msg) {
     if (msg) {
       $('div#chatWindow').append('<p> ' + who + ' &gt; ' + msg + '</p>').find(
