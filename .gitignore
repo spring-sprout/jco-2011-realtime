@@ -3,3 +3,4 @@
 .project
 .springBeans
 target
+*.class
