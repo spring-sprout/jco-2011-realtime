@@ -4,3 +4,4 @@
 .springBeans
 target
 *.class
+*.jar
