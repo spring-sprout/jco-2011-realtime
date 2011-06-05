@@ -27,8 +27,8 @@
 		</div>
 		<div id="no">
 		   <div class="background">X</div>
-         <div class="respondents">
-         </div>
+           <div class="respondents">
+           </div>
 		</div>
     </div>
     
@@ -78,7 +78,23 @@
 		      var obj = $('#circle-' + id);
 		      var target = $('#' +to+ ' .respondents');
 		      if(target.find('#circle-' + id).length < 1) {
-		    	  target.append(obj);
+		    	  var targetOffset;
+		    	  var objOffset = obj.offset();
+		    	  if ($.isEmptyObject(target.find('.circle'))) {
+		    		  targetOffset = target.find('.circle').last().offset();
+		    	  } else {
+		    		  targetOffset = target.offset();
+		    	  }
+		    	  obj.animate({
+	    		    left: targetOffset.left- obj.offset().left,
+	    		    top: targetOffset.top - obj.offset().top
+	    		  }, 500, function() {
+	    		    obj.css({
+	    		    	'left':0
+	    		       ,'top':0
+	    		    })
+		       	    target.append(obj);
+	    		  });
 		    	  this.countWaiting();
 		      }
 		   },

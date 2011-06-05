@@ -58,6 +58,7 @@ footer {
    -webkit-border-radius: 20px;
    float: left;
    margin: 3px;
+   position: relative;
 }
 .me {
    background: #7f203b;
