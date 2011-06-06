@@ -9,7 +9,6 @@
     <meta name="description" content="JCO 2011 ">
   	<meta name="author" content="SpringSprout">
     <link rel="stylesheet" type="text/css" href='<spring:url value="/css/style.css" />' />
-    <link rel="stylesheet" type="text/css" href='<spring:url value="/css/jquery.gritter.css" />' />
     
 </head>
 <body>
@@ -44,14 +43,19 @@
   
     <script src='<spring:url value="/js/jquery-1.5.2.js" />'></script>
     <script type="text/javascript" src='<spring:url value="/js/streamhub-min.js" />'></script>  
-    <script type="text/javascript" src='<spring:url value="/js/jquery.gritter.min.js" />'></script>  
     <script type="text/javascript" src='<spring:url value="/js/oxquiz.js" />'></script>
     <script type="text/javascript">
         var streamHub = new StreamHub();
         
+        jQuery.fn.center = function () {
+            this.css("position","absolute");
+            this.css("top", ( $(window).height() - this.height() ) / 2+$(window).scrollTop() + "px");
+            this.css("left", ( $(window).width() - this.width() ) / 2+$(window).scrollLeft() + "px");
+            return this;
+        }
+        
         var SS = {
            me: null,
-           gritter: null,
            initEventListener: function() {
         	   $('#yes').click(function(e) {
 	               	streamHub.publish('entryAnswerSubmitCommand', '{"answer":"yes"}');
@@ -98,52 +102,38 @@
 		    	  this.countWaiting();
 		      }
 		   },
-		   notificate: function(text) {
-			   this.gritter = $.gritter.add({
-					title: 'oxquiz',
-					text: text,
-					time: 500
-				});
+		   notificate: function(timer, text, callback) {
+			   if ($('#countdown').size() < 1) {
+				   $(document.body).append('<div id="countdown"/>');
+				   $('#countdown').center();
+				   $('#countdown').css({'opacity': '0.8'});
+			   }
+			   if (text) {
+				   $('#countdown').html('<div style="font-size:0.15em; margin-top:100px;">'+ text + '</div>');
+			   } else {
+				   $('#countdown').text(timer--);
+			   }
+			   if (timer > 0) {
+				   setTimeout(function() {
+					   SS.notificate(timer, null, callback);
+				   }, 1000);
+			   } else {
+				   setTimeout(function() {
+					   $('#countdown').remove();
+					   callback();
+				   }, 1000);
+				   
+			   }
 		   },
 		   notificateCloseQuiz: function() {
-			   this.notificate('5초후에 마감합니다.');
-			   setTimeout(function() {
-				   SS.notificate('4');
-			   }, 1000);
-			   setTimeout(function() {
-				   SS.notificate('3');
-			   }, 2000);
-			   setTimeout(function() {
-				   SS.notificate('2');
-			   }, 3000);
-			   setTimeout(function() {
-				   SS.notificate('1');
-			   }, 4000);
-			   setTimeout(function() {
-				   SS.notificate('마감합니다.');
-			   }, 5000);
-			   setTimeout(function() {
-				   SS.closeQuiz();
-			   }, 5000);
+			   this.notificate(5, '5초후에 마감합니다.', SS.closeQuiz);
 		   },
 		   closeQuiz: function() {
 			   $('#yes').unbind('click').css('cursor', 'auto');
 			   $('#no').unbind('click').css('cursor', 'auto');
 		   },
 		   notificateNextQuiz: function(title) {
-			   this.notificate('다음 문제로 이동합니다.');
-			   setTimeout(function() {
-				   SS.notificate('3');
-			   }, 1000);
-			   setTimeout(function() {
-				   SS.notificate('2');
-			   }, 2000);
-			   setTimeout(function() {
-				   SS.notificate('1');
-			   }, 3000);
-			   setTimeout(function() {
-				   SS.nextQuestion(title);
-			   }, 4000);
+			   this.notificate(3, '다음 문제로 이동합니다.', function() {SS.nextQuestion(title);});
 		   },
 		   nextQuestion: function(title) {
 		      $('header h2').html(title);

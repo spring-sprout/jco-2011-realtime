@@ -69,3 +69,18 @@ footer {
 .respondents {
    position:relative;
 }
+
+#countdown {
+	position: fixed;
+	width: 400px;
+	min-height: 350px;
+	color: #FFF;
+	background-color: #000;
+	top: 20px;
+	-moz-border-radius: 35px;
+   -webkit-border-radius: 35px;
+   border-radius: 35px;
+   text-align: center;
+   font-size: 20em;
+   padding: 5px;
+}
