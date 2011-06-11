@@ -163,6 +163,8 @@
             // 참가
             streamHub.subscribe("entry", function(topic, message) {
             	if(message.state === 'entryIn') {
+            	    $.get('<spring:url value="/entryIn" />', {entryId: message.entryId});
+            	    
             		if(SS.me == message.entryId) {
 	            		SS.addNewUser(message.entryId, 'me');
             		} else {

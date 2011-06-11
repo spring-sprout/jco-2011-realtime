@@ -164,19 +164,6 @@
             	}
             });            
             
-            // 참가
-            streamHub.subscribe("entry", function(topic, message) {
-            	if(message.state === 'entryIn') {
-            		if(SS.me == message.entryId) {
-	            		SS.addNewUser(message.entryId, 'me');
-            		} else {
-	            		SS.addNewUser(message.entryId, 'others');
-            		}
-            	} else if(message.state === 'entryOut') {
-            		SS.removeUser(message.entryId);
-            	}
-            });
-            
             SS.initEventListener();
             
             $('#closeBtn').click(function() {

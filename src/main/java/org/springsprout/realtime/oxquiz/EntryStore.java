@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.streamhub.api.Client;
 
@@ -25,8 +26,13 @@ public class EntryStore {
     }
     
     public void forgetEntry(Client client) {
-        logger.info("forget entry uid: {}", client.getUid());
-        entrys.remove(client.getUid());
+        forgetEntry(client.getUid());
+    }
+    
+    public void forgetEntry(String entryId) {
+        logger.info("forget entry uid: {}", entryId);
+        if(StringUtils.hasText(entryId))
+            entrys.remove(entryId);
     }
     
     public Client getEntry(String uid) {
