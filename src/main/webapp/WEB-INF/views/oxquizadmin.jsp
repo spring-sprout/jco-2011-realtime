@@ -35,7 +35,7 @@
        <div>답변 대기중인 사람들(<span id="watingNum">0</span>) : </div>
        <div id="waiting">
        		<c:forEach items="${entrys}" var="entry">
-	            <div id="circle-${entry.uid}" class="circle others"></div>
+	            <div id="circle-${entry.id}" class="circle others"></div>
 	        </c:forEach>
 	   </div>
     </footer>
@@ -43,6 +43,7 @@
   <div>
   	<input type="button" id="closeBtn" value="답변 선택 마감하기"/>
   	<input type="button" id="nextQuestion" value="다음 문제로 이동하기"/>
+    <input type="button" id="quizInitBtn" value="퀴즈 초기화"/>
   </div>
   
     <script src='<spring:url value="/js/jquery-1.5.2.js" />'></script>
@@ -76,8 +77,10 @@
         	   this.countWaiting();
            },
            removeUser: function(id) {
-        	 $('#circle-'+id).remove();
-        	 this.countWaiting();
+             if($('#circle-'+id)) {
+               $('#circle-'+id).remove();
+               this.countWaiting();
+             }
            },
            countWaiting: function() {
         	   $('#watingNum').html($('#waiting').children().length);
@@ -144,25 +147,39 @@
 		      $('.circle').appendTo('#waiting');
 		      this.initEventListener();
 		   }
-		}
+		};
 
         $(document).ready(function(){
-            streamHub.connect("http://localhost:7878/streamhub/");
+            streamHub.connect("http://dev.springsprout.org:10010/streamhub/");
             
             // 알림 청취
             streamHub.subscribe("notification", function(topic, notification) {
-            	//console.log(notification);
-				
-            	if(notification.state === 'entryAnswerSubmit') {
-            		SS.selectAnswer(notification.entryId, notification.answer);
-            	} else if(notification.state === 'myEntryId') {
-            		SS.me = notification.entryId;
-            	} else if(notification.state === 'currentQuizClose') {
-            		SS.notificateCloseQuiz();
-            	} else if(notification.state === 'nextQuiz') {
-            		SS.notificateNextQuiz(notification.quiz);
-            	}
-            });            
+                //console.log(notification);
+
+                if(notification.state === 'entryAnswerSubmit') {
+                    SS.selectAnswer(notification.entryId, notification.answer);
+                } else if(notification.state === 'myEntryId') {
+                    SS.me = notification.entryId;
+                    $.get('<spring:url value="/entryConn" />', {entryId: SS.me});
+                } else if(notification.state === 'currentQuizClose') {
+                    SS.notificateCloseQuiz();
+                } else if(notification.state === 'nextQuiz') {
+                    SS.notificateNextQuiz(notification.quiz);
+                }
+            });         
+            
+            // 참가
+            streamHub.subscribe("entry", function(topic, message) {
+                if(message.state === 'entryIn') {
+                    if(SS.me == message.entryId) {
+                        SS.addNewUser(message.entryId, 'me');
+                    } else {
+                        SS.addNewUser(message.entryId, 'others');
+                    }
+                } else if(message.state === 'entryOut') {
+                    SS.removeUser(message.entryId);
+                }
+            });
             
             SS.initEventListener();
             
@@ -171,6 +188,9 @@
             });
             $('#nextQuestion').click(function() {
                 streamHub.publish("adminCommand", "{command:nextQuiz}");
+            });
+            $('#quizInitBtn').click(function() {
+                $.get('<spring:url value="/quizInit" />');
             });
         });
     </script>

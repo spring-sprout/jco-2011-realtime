@@ -15,13 +15,13 @@
     <bean class="org.springsprout.realtime.streamhub.StreamhubServerFactory">
         <property name="address">
             <bean class="java.net.InetSocketAddress">
-                <constructor-arg type="int" value="7878" />
+                <constructor-arg type="int" value="10010" />
             </bean>
         </property>
         <property name="licenseUrl" value="classpath:META-INF/streamhub/license.txt" />
         <property name="log4jConfigurationUrl" value="classpath:log4j.xml" />
     </bean>   
     
-    <bean class="org.springsprout.realtime.oxquiz.ListenerHandlerRegistrant" /> 
+    <bean class="org.springsprout.realtime.streamhub.ListenerRegistrant" /> 
     
 </beans>

@@ -3,7 +3,7 @@
   * jco-2011-realtime
   * created by isyoon Jun 5, 2011 2:22:21 PM
   */
-package org.springsprout.realtime.support;
+package org.springsprout.realtime.chunked;
 
 import java.util.HashMap;
 import java.util.LinkedList;

@@ -18,12 +18,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springsprout.realtime.support.ChatStore;
+import org.springsprout.realtime.chunked.ChatStore;
 
 @Controller
 public class ChunkedController {
+    
     @Autowired
     ChatStore chatStore;
+    
     ObjectMapper om = new ObjectMapper();
     
     @RequestMapping("/chatListener")

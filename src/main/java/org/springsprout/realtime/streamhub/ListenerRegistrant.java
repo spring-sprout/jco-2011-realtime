@@ -1,4 +1,4 @@
-package org.springsprout.realtime.oxquiz;
+package org.springsprout.realtime.streamhub;
 
 import java.util.Map;
 
@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springsprout.realtime.streamhub.Publish;
-import org.springsprout.realtime.streamhub.Subscription;
 
 import com.streamhub.api.Client;
 import com.streamhub.api.Payload;
@@ -17,9 +15,9 @@ import com.streamhub.api.PublishListener;
 import com.streamhub.api.PushServer;
 import com.streamhub.api.SubscriptionListener;
 
-public class ListenerHandlerRegistrant implements InitializingBean {
+public class ListenerRegistrant implements InitializingBean {
     
-    private Logger logger = LoggerFactory.getLogger(ListenerHandlerRegistrant.class);
+    private Logger logger = LoggerFactory.getLogger(ListenerRegistrant.class);
     
     @Autowired
     private ApplicationContext applicationContext;

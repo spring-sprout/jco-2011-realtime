@@ -9,6 +9,17 @@ public class QuizStore {
     private static Iterator<String> quizs;
     
     static {
+        init();
+    }
+    
+    public static String next() {
+        if(quizs.hasNext())
+            return quizs.next();
+        else
+            return "";
+    }
+    
+    public static void init() {
         Set<String> quizSet = new HashSet<String>();
         quizSet.add("자바에서 어느 서블릿 컨테이너가 Comet을 지원하는지 알고 있다.");
         quizSet.add("웹소켓을 사용해 본적이 있다.");
@@ -18,13 +29,6 @@ public class QuizStore {
         quizSet.add("리얼타입웹 기술들에 대해서 들어본 적이 있다.");
         
         quizs = quizSet.iterator();
-    }
-    
-    public static String next() {
-        if(quizs.hasNext())
-            return quizs.next();
-        else
-            return "";
     }
 
 }
