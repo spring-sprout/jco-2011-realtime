@@ -44,6 +44,7 @@
   	<input type="button" id="closeBtn" value="답변 선택 마감하기"/>
   	<input type="button" id="nextQuestion" value="다음 문제로 이동하기"/>
     <input type="button" id="quizInitBtn" value="퀴즈 초기화"/>
+    <input type="button" id="entryInitBtn" value="사용자 초기화"/>
   </div>
   
     <script src='<spring:url value="/js/jquery-1.5.2.js" />'></script>
@@ -191,6 +192,9 @@
             });
             $('#quizInitBtn').click(function() {
                 $.get('<spring:url value="/quizInit" />');
+            });
+            $('#entryInitBtn').click(function() {
+                $.get('<spring:url value="/entryInit" />');
             });
         });
     </script>

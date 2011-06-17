@@ -10,7 +10,7 @@
     
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>    
+    </listener>
     
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>

@@ -55,7 +55,7 @@ public class EntryInOutSubscription implements Subscription, ApplicationListener
         server.publish(getTopic(), entry);
         
         // 참가자가 퀴즈방에서 나감.
-        entryManager.entryOut(client.getUid());
+        entryManager.entryOutByEntryId(client.getUid());
         
         logger.info("onUnSubscribe client: {}", client.getUid());
         
@@ -87,6 +87,10 @@ public class EntryInOutSubscription implements Subscription, ApplicationListener
             client.disconnect();
             
             logger.info("entry({}) refresh event processing!", client.getUid());
+        } else if(EntryEventType.OUT.equals(event.getEventType())) {
+            // 참가자가 나가면...
+            
+            onUnSubscribe(client);
         }
     }
 

@@ -57,11 +57,10 @@ public class QxQuizController {
         if(entry != null) {
             entry.setSessionId(session.getId());
             applicationContext.publishEvent(new EntryEvent(entry, EntryEventType.ACTIVE));
+            
+            session.setAttribute("entryId", entryId);
+            logger.info("사용자({})를 기억해둡니다.", entryId);
         }
-        
-        session.setAttribute("entryId", entryId);
-        
-        logger.info("사용자({})를 기억해둡니다.", entryId);
     }
     
     @RequestMapping("/quizInit")
@@ -71,8 +70,18 @@ public class QxQuizController {
         QuizStore.init();
     }
     
+    @RequestMapping("/entryInit")
+    public void entryInit() {
+        logger.info("접속된 사용자 목록을 초기화합니다.");
+        
+        entryManager.init();
+    }    
+    
     @RequestMapping("/admin")
-    public String oxquizAdmin(Model model) {
+    public String oxquizAdmin(@RequestParam(defaultValue="") String paddwd, Model model) {
+        if("1q2w3e".equals(paddwd))
+            return "redirect:/";
+        
     	model.addAttribute("entrys", entryManager.getAllActiveEntrys());
     	
     	return "/oxquizadmin";

@@ -1,6 +1,5 @@
 package org.springsprout.realtime.streamhub;
 
-import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.net.URL;
 
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
-import org.springframework.util.ReflectionUtils;
 
 import com.streamhub.api.PushServer;
 import com.streamhub.nio.NIOServer;
@@ -57,12 +55,8 @@ public class StreamhubServerFactory implements InitializingBean, DisposableBean,
         Assert.notNull(log4jConfigurationUrl);
         
         server = new NIOServer(address, streamingAdapterAddress, licenseUrl, log4jConfigurationUrl);
-        server.start();
         
-        // 접속 종료 이벤트 처리를 5초내에 처리하도록 조정
-        Field field = ReflectionUtils.findField(server.getSubscriptionManager().getClass(), "reconnectionTimeoutMillis");
-        ReflectionUtils.makeAccessible(field);
-        ReflectionUtils.setField(field, server.getSubscriptionManager(), new Long(5000));
+        server.start();
     }
 
     @Override

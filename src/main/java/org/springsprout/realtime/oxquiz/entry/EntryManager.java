@@ -6,6 +6,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -15,6 +18,12 @@ public class EntryManager {
     private Logger logger = LoggerFactory.getLogger(EntryManager.class);
     private ConcurrentHashMap<String, Entry> entryMap =  new ConcurrentHashMap<String, Entry>();
     
+    @Autowired ApplicationContext context;
+    
+    public void init() {
+        entryMap =  new ConcurrentHashMap<String, Entry>();
+    }
+    
     public Entry entryIn(Entry entry) {
         if(entryMap.containsKey(entry.getId())) {
             return entry;
@@ -23,14 +32,25 @@ public class EntryManager {
         return entryMap.put(entry.getId(), entry);
     }
     
-    public void forgetEntry(Entry entry) {
-        entryOut(entry.getId());
+    public void entryOut(Entry entry) {
+        entryOutByEntryId(entry.getId());
     }
     
-    public void entryOut(String entryId) {
+    public void entryOutByEntryId(String entryId) {
         if(StringUtils.hasText(entryId)) {
-            logger.info("entry out: {}", entryId);
+            logger.info("entry out by entryId: {}", entryId);
             entryMap.remove(entryId);
+        }
+    }
+    
+    public void entryOutBySessionId(String sessionId) {
+        if(StringUtils.hasText(sessionId)) {
+            for(Entry entry : entryMap.values()) {
+                if(sessionId.equals(entry.getSessionId())) {
+                    logger.info("entry out by sessionId: {}", entry.getId());
+                    entryMap.remove(sessionId);                    
+                }
+            }
         }
     }
     
@@ -50,6 +70,18 @@ public class EntryManager {
             if(entry.isActive()) _entrys.add(entry);
         }
         return _entrys;
+    }
+    
+    @Scheduled(cron="*/60 * * * * SUN-SAT")
+    public void entryClaner() {
+        logger.debug("entryClaner execute!");
+        
+        for(Entry entry : entryMap.values()) {
+            if(!entry.getClient().isConnected()) {
+                logger.info("entry[{}] status is disconnected!", entry.getClient().getUid());
+                context.publishEvent(new EntryEvent(entry, EntryEventType.OUT));
+            }
+        }
     }
 
 }
