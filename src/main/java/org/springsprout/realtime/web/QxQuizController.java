@@ -86,5 +86,10 @@ public class QxQuizController {
     	
     	return "/oxquizadmin";
     }
+    
+    @RequestMapping("/test")
+    public String hubtest() {
+        return "/hubtest";
+    }
 
 }
