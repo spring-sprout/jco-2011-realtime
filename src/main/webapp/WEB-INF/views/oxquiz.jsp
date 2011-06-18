@@ -12,7 +12,6 @@
     
 </head>
 <body>
-    <h2>Realtime Web Application :: OXQuiz</h2>
     <div id="container">
     <header>
 		<h2>Comet이라는 용어를 들어봤다.</h2> 
@@ -86,7 +85,7 @@
 		      if(target.find('#circle-' + id).length < 1) {
 		    	  var targetOffset;
 		    	  var objOffset = obj.offset();
-		    	  if ($.isEmptyObject(target.find('.circle'))) {
+		    	  if (target.find('.circle').size() > 0) {
 		    		  targetOffset = target.find('.circle').last().offset();
 		    	  } else {
 		    		  targetOffset = target.offset();
